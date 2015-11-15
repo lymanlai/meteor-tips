@@ -49,4 +49,7 @@ You can also refer to [this](https://kadira.io/academy/analyze-meteor-cpu-profil
       [sendgrid](https://sendgrid.com/docs/API_Reference/Web_API/index.html),
       [http://customer.io/](http://customer.io/)
 
-8. 
+8. Meteor.defer 与 this.unblock 区别在于defer内的代码运行时间不计入该method的运行时间，
+    unblock则是告诉meteor来pick下一个method执行不用等该方法执行完
+
+9. 
