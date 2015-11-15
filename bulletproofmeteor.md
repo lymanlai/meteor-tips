@@ -52,4 +52,28 @@ You can also refer to [this](https://kadira.io/academy/analyze-meteor-cpu-profil
 8. Meteor.defer 与 this.unblock 区别在于defer内的代码运行时间不计入该method的运行时间，
     unblock则是告诉meteor来pick下一个method执行不用等该方法执行完
 
-9. 
+9. SubsManager：Subscriptions Manager caches your subscriptions and runs all the subscriptions that have been cached when a route is changed.
+  https://github.com/kadirahq/subs-manager
+  meteor add meteorhacks:subs-manager
+  Usage with Iron Router: just replace Meteor.subscribe() calls with subs.subscribe(), where subs is a new SubsManager().
+  var subs = new SubsManager();
+  // later in some other place
+  subs.reset();
+  var subs = new SubsManager({
+    // maximum number of cache subscriptions
+    cacheLimit: 10,
+    // any subscription will be expire after 5 minute, if it's not subscribed again
+    expireIn: 5
+  });
+  1). Using separate Subscription Managers
+  2). Cache subscriptions you only need
+  3). Using global ready checking
+  var subs = new SubsManager();
+  subs.subscribe('postList');
+  subs.subscribe('singlePost', 'id1');
+
+  Tracker.autorun(function() {
+    if(subs.ready()) {
+      // all the subscriptions are ready to use.
+    }
+  });
