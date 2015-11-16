@@ -77,3 +77,45 @@ You can also refer to [this](https://kadira.io/academy/analyze-meteor-cpu-profil
       // all the subscriptions are ready to use.
     }
   });
+
+10. Server-Side Transformation
+// function that transform the document and create the summary field
+function transform(wiki) {
+var newWiki = {
+  topic: wiki.topic,
+  summary: wiki.content.substring(0, 100)
+};
+
+return newWiki;
+}
+
+Meteor.publish('getRecentWikis', function () {
+var sub = this;
+var options = {
+  sort: {date: -1},
+  limit: 50,
+  fields: {topic:1, content: 1},
+};
+
+// creates the cursor
+var cursor = Wiki.find({}, options);
+
+// observe the cursor and send changes manually
+cursor.observeChanges({
+  added: function (id, doc) {
+    // wikis is the collection name (in mongodb)
+    sub.added('wikis', id, transform(doc));
+  },
+  changed: function (id, doc) {
+    sub.changed('wikis', id, transform(doc));
+  },
+  removed: function (id) {
+    sub.removed(id);
+  }
+});
+
+// making sure to mark subscription as ready
+sub.ready();
+});
+
+11. meteor add meteorhacks:fast-render
