@@ -19,3 +19,8 @@ https://www.youtube.com/watch?v=0rQqsvjEeNM
 9. Meteor up (mupx)
 
 10. BulletProof Meteor: https://goo.gl/O9BJ5g
+
+
+$(boot2docker shellinit)
+netstat -ntpl | grep docker
+bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
